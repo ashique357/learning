@@ -1,19 +1,19 @@
 """
-RAG Engine using Groq API + ChromaDB built-in embeddings
-No PyTorch or sentence-transformers needed
+RAG Engine using Groq API + TF-IDF search
+No native dependencies needed
 """
 
 import os
 from typing import Dict
-import chromadb
 from langchain_groq import ChatGroq
 from langchain_core.prompts import PromptTemplate
+from ingestion import DocumentStore
 
 
 class RAGEngine:
     def __init__(
         self,
-        chroma_path: str = "./chroma_db",
+        store_path: str = "./doc_store",
         model_name: str = "llama-3.1-8b-instant",
         temperature: float = 0.7,
     ):
@@ -21,11 +21,10 @@ class RAGEngine:
         if not groq_api_key:
             raise ValueError("GROQ_API_KEY not set. Add it in Streamlit Cloud Secrets.")
 
-        # ChromaDB with built-in embeddings
-        client = chromadb.PersistentClient(path=chroma_path)
-        self.collection = client.get_collection(name="learning_docs")
+        self.store = DocumentStore(store_path)
+        if not self.store.load():
+            raise ValueError("Document store not found. Run ingestion first.")
 
-        # Groq LLM
         self.llm = ChatGroq(
             model=model_name,
             temperature=temperature,
@@ -47,34 +46,25 @@ Instructions:
 - Explain concepts from a Solution Architect perspective
 - If the context doesn't contain enough information, say so clearly
 - Structure your answer with clear sections when appropriate
-- Include hands-on tips when relevant
 
 Answer:""",
             input_variables=["context", "question"],
         )
 
     def query(self, question: str) -> Dict:
-        # Search ChromaDB
-        results = self.collection.query(query_texts=[question], n_results=5)
+        results = self.store.search(question, n_results=5)
 
-        # Build context from results
-        context = "\n\n".join(results["documents"][0])
+        context = "\n\n".join(r["text"] for r in results)
+        sources = [
+            {
+                "subject": r["metadata"]["subject"],
+                "file": r["metadata"]["filename"],
+                "path": r["metadata"]["relative_path"],
+            }
+            for r in results
+        ]
 
-        # Build sources
-        sources = []
-        if results["metadatas"] and results["metadatas"][0]:
-            for meta in results["metadatas"][0]:
-                sources.append({
-                    "subject": meta.get("subject", "unknown"),
-                    "file": meta.get("filename", "unknown"),
-                    "path": meta.get("relative_path", "unknown"),
-                })
-
-        # Query LLM
         formatted_prompt = self.prompt.format(context=context, question=question)
         response = self.llm.invoke(formatted_prompt)
 
-        return {
-            "answer": response.content,
-            "sources": sources,
-        }
+        return {"answer": response.content, "sources": sources}

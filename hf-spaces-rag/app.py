@@ -14,14 +14,12 @@ st.set_page_config(
     layout="wide",
 )
 
-# Auto-ingest if chroma_db doesn't exist
-if not Path("./chroma_db").exists():
+if not Path("./doc_store").exists():
     with st.spinner("🔄 First run: Processing learning materials..."):
         ingestion = DocumentIngestion("./learning-content")
         ingestion.ingest()
     st.success("✅ Learning materials processed!")
 
-# Initialize RAG engine
 if "rag_engine" not in st.session_state:
     with st.spinner("🔄 Loading RAG engine..."):
         try:
@@ -34,7 +32,6 @@ if "rag_engine" not in st.session_state:
 if "messages" not in st.session_state:
     st.session_state.messages = []
 
-# Sidebar
 with st.sidebar:
     st.title("🎓 Learning Assistant")
     st.markdown("---")
@@ -54,25 +51,12 @@ with st.sidebar:
     st.markdown("---")
     st.subheader("📚 Subjects")
     subjects = [
-        "01-linux-os-fundamentals",
-        "02-basic-networking",
-        "03-database",
-        "04-system-architecture",
-        "05-docker",
-        "06-kubernetes",
-        "07-aws",
-        "08-ci-cd",
-        "09-design-patterns",
-        "10-monitoring-observability",
-        "11-security-compliance",
-        "12-message-queues-streaming",
-        "13-api-design-management",
-        "14-java",
-        "15-spring-boot",
-        "16-python",
-        "17-django",
-        "18-fastapi",
-        "19-frontend",
+        "01-linux-os-fundamentals", "02-basic-networking", "03-database",
+        "04-system-architecture", "05-docker", "06-kubernetes", "07-aws",
+        "08-ci-cd", "09-design-patterns", "10-monitoring-observability",
+        "11-security-compliance", "12-message-queues-streaming",
+        "13-api-design-management", "14-java", "15-spring-boot",
+        "16-python", "17-django", "18-fastapi", "19-frontend",
     ]
     selected_subject = st.selectbox("Filter by subject", ["All"] + subjects)
 
@@ -81,11 +65,9 @@ with st.sidebar:
         st.session_state.messages = []
         st.rerun()
 
-# Main content
 st.title("🎓 Solution Architect Learning Assistant")
 st.markdown("Ask questions about any topic in your learning roadmap!")
 
-# Display chat messages
 for message in st.session_state.messages:
     with st.chat_message(message["role"]):
         st.markdown(message["content"])
@@ -94,7 +76,6 @@ for message in st.session_state.messages:
                 for source in message["sources"]:
                     st.markdown(f"- **{source['subject']}** / {source['file']}")
 
-# Chat input
 if prompt := st.chat_input("Ask a question about your learning topics..."):
     st.session_state.messages.append({"role": "user", "content": prompt})
 
@@ -111,9 +92,7 @@ if prompt := st.chat_input("Ask a question about your learning topics..."):
                     if result["sources"]:
                         with st.expander("📚 Sources"):
                             for source in result["sources"]:
-                                st.markdown(
-                                    f"- **{source['subject']}** / {source['file']}"
-                                )
+                                st.markdown(f"- **{source['subject']}** / {source['file']}")
 
                     st.session_state.messages.append({
                         "role": "assistant",
