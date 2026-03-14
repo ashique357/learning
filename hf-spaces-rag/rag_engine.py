@@ -1,13 +1,12 @@
 """
-RAG Engine using Groq API (Free LLM)
+RAG Engine using Groq API + ChromaDB built-in embeddings
+No PyTorch or sentence-transformers needed
 """
 
 import os
-from typing import List, Dict
-from langchain_community.embeddings import HuggingFaceEmbeddings
-from langchain_community.vectorstores import Chroma
+from typing import Dict
+import chromadb
 from langchain_groq import ChatGroq
-from langchain.chains import RetrievalQA
 from langchain_core.prompts import PromptTemplate
 
 
@@ -20,19 +19,13 @@ class RAGEngine:
     ):
         groq_api_key = os.getenv("GROQ_API_KEY")
         if not groq_api_key:
-            raise ValueError("GROQ_API_KEY not set. Add it in HF Space Settings → Secrets.")
+            raise ValueError("GROQ_API_KEY not set. Add it in Streamlit Cloud Secrets.")
 
-        self.embeddings = HuggingFaceEmbeddings(
-            model_name="sentence-transformers/all-MiniLM-L6-v2",
-            model_kwargs={"device": "cpu"},
-        )
+        # ChromaDB with built-in embeddings
+        client = chromadb.PersistentClient(path=chroma_path)
+        self.collection = client.get_collection(name="learning_docs")
 
-        self.vectorstore = Chroma(
-            persist_directory=chroma_path,
-            embedding_function=self.embeddings,
-            collection_name="learning_docs",
-        )
-
+        # Groq LLM
         self.llm = ChatGroq(
             model=model_name,
             temperature=temperature,
@@ -60,24 +53,28 @@ Answer:""",
             input_variables=["context", "question"],
         )
 
-        self.qa_chain = RetrievalQA.from_chain_type(
-            llm=self.llm,
-            chain_type="stuff",
-            retriever=self.vectorstore.as_retriever(search_kwargs={"k": 5}),
-            chain_type_kwargs={"prompt": self.prompt},
-            return_source_documents=True,
-        )
-
     def query(self, question: str) -> Dict:
-        result = self.qa_chain({"query": question})
+        # Search ChromaDB
+        results = self.collection.query(query_texts=[question], n_results=5)
+
+        # Build context from results
+        context = "\n\n".join(results["documents"][0])
+
+        # Build sources
+        sources = []
+        if results["metadatas"] and results["metadatas"][0]:
+            for meta in results["metadatas"][0]:
+                sources.append({
+                    "subject": meta.get("subject", "unknown"),
+                    "file": meta.get("filename", "unknown"),
+                    "path": meta.get("relative_path", "unknown"),
+                })
+
+        # Query LLM
+        formatted_prompt = self.prompt.format(context=context, question=question)
+        response = self.llm.invoke(formatted_prompt)
+
         return {
-            "answer": result["result"],
-            "sources": [
-                {
-                    "subject": doc.metadata.get("subject", "unknown"),
-                    "file": doc.metadata.get("filename", "unknown"),
-                    "path": doc.metadata.get("relative_path", "unknown"),
-                }
-                for doc in result["source_documents"]
-            ],
+            "answer": response.content,
+            "sources": sources,
         }

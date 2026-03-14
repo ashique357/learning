@@ -1,52 +1,39 @@
 """
-Document Ingestion Pipeline for Hugging Face Spaces
+Document Ingestion Pipeline
+Uses ChromaDB's built-in embeddings (no PyTorch needed)
 """
 
 from pathlib import Path
 from typing import List
+import chromadb
 from langchain_text_splitters import RecursiveCharacterTextSplitter
-from langchain_community.embeddings import HuggingFaceEmbeddings
-from langchain_community.vectorstores import Chroma
-from langchain_core.documents import Document
 
 
 class DocumentIngestion:
     def __init__(self, learning_path: str, chroma_path: str = "./chroma_db"):
         self.learning_path = Path(learning_path)
         self.chroma_path = chroma_path
-
-        self.embeddings = HuggingFaceEmbeddings(
-            model_name="sentence-transformers/all-MiniLM-L6-v2",
-            model_kwargs={"device": "cpu"},
-        )
-
         self.text_splitter = RecursiveCharacterTextSplitter(
             chunk_size=1000,
             chunk_overlap=200,
             separators=["\n## ", "\n### ", "\n\n", "\n", " ", ""],
         )
 
-    def load_markdown_files(self) -> List[Document]:
+    def load_markdown_files(self) -> List[dict]:
         documents = []
         for md_file in self.learning_path.rglob("*.md"):
             try:
                 with open(md_file, "r", encoding="utf-8") as f:
                     content = f.read()
-
                 relative_path = md_file.relative_to(self.learning_path)
                 parts = relative_path.parts
                 subject = parts[0] if len(parts) > 0 else "general"
-
-                doc = Document(
-                    page_content=content,
-                    metadata={
-                        "source": str(md_file),
-                        "subject": subject,
-                        "filename": md_file.name,
-                        "relative_path": str(relative_path),
-                    },
-                )
-                documents.append(doc)
+                documents.append({
+                    "content": content,
+                    "subject": subject,
+                    "filename": md_file.name,
+                    "relative_path": str(relative_path),
+                })
                 print(f"✓ Loaded: {relative_path}")
             except Exception as e:
                 print(f"✗ Error loading {md_file}: {e}")
@@ -59,21 +46,55 @@ class DocumentIngestion:
             print("❌ No documents found!")
             return
 
-        chunks = self.text_splitter.split_documents(documents)
-        print(f"\n📄 Created {len(chunks)} chunks from {len(documents)} documents")
+        # Split documents into chunks
+        all_texts = []
+        all_metadatas = []
+        all_ids = []
+        chunk_id = 0
 
+        for doc in documents:
+            from langchain_core.documents import Document as LCDoc
+            lc_doc = LCDoc(page_content=doc["content"])
+            chunks = self.text_splitter.split_documents([lc_doc])
+
+            for chunk in chunks:
+                all_texts.append(chunk.page_content)
+                all_metadatas.append({
+                    "subject": doc["subject"],
+                    "filename": doc["filename"],
+                    "relative_path": doc["relative_path"],
+                })
+                all_ids.append(f"chunk_{chunk_id}")
+                chunk_id += 1
+
+        print(f"\n📄 Created {len(all_texts)} chunks from {len(documents)} documents")
         print("\n🔄 Creating vector embeddings...")
-        Chroma.from_documents(
-            documents=chunks,
-            embedding=self.embeddings,
-            persist_directory=self.chroma_path,
-            collection_name="learning_docs",
-        )
+
+        # Use ChromaDB directly with built-in embeddings
+        client = chromadb.PersistentClient(path=self.chroma_path)
+
+        # Delete existing collection if exists
+        try:
+            client.delete_collection("learning_docs")
+        except Exception:
+            pass
+
+        collection = client.create_collection(name="learning_docs")
+        
+        # Add in batches of 50
+        batch_size = 50
+        for i in range(0, len(all_texts), batch_size):
+            end = min(i + batch_size, len(all_texts))
+            collection.add(
+                documents=all_texts[i:end],
+                metadatas=all_metadatas[i:end],
+                ids=all_ids[i:end],
+            )
 
         print(f"✓ Vector store created at: {self.chroma_path}")
         print(f"\n✅ Ingestion complete!")
         print(f"   Documents: {len(documents)}")
-        print(f"   Chunks: {len(chunks)}")
+        print(f"   Chunks: {len(all_texts)}")
 
 
 if __name__ == "__main__":

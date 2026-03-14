@@ -1,15 +1,13 @@
 """
 Solution Architect Learning Assistant
-Hosted on Hugging Face Spaces with Groq API
+Hosted on Streamlit Community Cloud with Groq API
 """
 
 import streamlit as st
-import os
 from pathlib import Path
 from rag_engine import RAGEngine
 from ingestion import DocumentIngestion
 
-# Page config
 st.set_page_config(
     page_title="Solution Architect Learning Assistant",
     page_icon="🎓",
@@ -117,14 +115,12 @@ if prompt := st.chat_input("Ask a question about your learning topics..."):
                                     f"- **{source['subject']}** / {source['file']}"
                                 )
 
-                    st.session_state.messages.append(
-                        {
-                            "role": "assistant",
-                            "content": result["answer"],
-                            "sources": result["sources"],
-                        }
-                    )
+                    st.session_state.messages.append({
+                        "role": "assistant",
+                        "content": result["answer"],
+                        "sources": result["sources"],
+                    })
                 except Exception as e:
                     st.error(f"❌ Error: {str(e)}")
     else:
-        st.error("❌ RAG engine not loaded. Check GROQ_API_KEY in Space Secrets.")
+        st.error("❌ RAG engine not loaded. Check GROQ_API_KEY in Secrets.")
