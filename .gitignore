@@ -1,0 +1,5 @@
+.idea/
+.venv/
+.devcontainer/
+__pycache__/
+*.iml
