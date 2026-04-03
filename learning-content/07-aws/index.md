@@ -56,71 +56,115 @@ Master AWS cloud services, architecture, and best practices for building scalabl
 39. AWS Glue
 40. AWS Athena
 41. EMR (Elastic MapReduce)
+42. Kinesis Data Streams
+43. Kinesis Data Firehose
+44. Kinesis Data Analytics
+45. Amazon OpenSearch Service
 
 ### Networking
-42. VPC (Virtual Private Cloud)
-43. Subnets
-44. Internet Gateway
-45. NAT Gateway
-46. Route Tables
-47. Security Groups
-48. Network ACLs
-49. VPC Peering
-50. Transit Gateway
-51. Direct Connect
-52. Route 53
-53. CloudFront
+46. VPC (Virtual Private Cloud)
+47. Subnets
+48. Internet Gateway
+49. NAT Gateway
+50. Route Tables
+51. Security Groups
+52. Network ACLs
+53. VPC Peering
+54. Transit Gateway
+55. Direct Connect
+56. Site-to-Site VPN
+57. Direct Connect + VPN Failover
+58. VPC Endpoints (Gateway & Interface)
+59. Elastic IP & ENI (Elastic Network Interface)
+60. Placement Groups
+61. Route 53
+62. CloudFront
+63. Global Accelerator
 
 ### Application Services
-54. API Gateway
-55. SQS (Simple Queue Service)
-56. SNS (Simple Notification Service)
-57. EventBridge
-58. Step Functions
-59. Step Functions Patterns
-60. AppSync
+64. API Gateway
+65. SQS (Simple Queue Service)
+66. SNS (Simple Notification Service)
+67. EventBridge
+68. Step Functions
+69. Step Functions Patterns
+70. AppSync
 
 ### Monitoring and Management
-61. CloudWatch
-62. CloudWatch Logs
-63. CloudWatch Alarms
-64. CloudTrail
-65. AWS Config
-66. Systems Manager
-67. X-Ray
+71. CloudWatch
+72. CloudWatch Logs
+73. CloudWatch Alarms
+74. CloudTrail
+75. AWS Config
+76. Systems Manager
+77. X-Ray
 
 ### Security
-68. AWS Security Best Practices
-69. KMS (Key Management Service)
-70. Secrets Manager
-71. WAF (Web Application Firewall)
-72. Shield (DDoS Protection)
-73. GuardDuty
-74. Security Hub
-75. Inspector
+78. AWS Shared Responsibility Model
+79. AWS Security Best Practices
+80. KMS (Key Management Service)
+81. CloudHSM
+82. KMS vs CloudHSM
+83. Secrets Manager
+84. WAF (Web Application Firewall)
+85. Shield (DDoS Protection)
+86. GuardDuty
+87. Security Hub
+88. Inspector
+89. Macie (Data Classification)
+90. STS (Security Token Service) & Federation
+91. Cognito
+
+### Migration & Transfer
+92. AWS Migration Strategies (6 R's)
+93. AWS Migration Hub
+94. Database Migration Service (DMS)
+95. Schema Conversion Tool (SCT)
+96. Application Discovery Service
+97. Snow Family (Snowcone, Snowball, Snowmobile)
+98. DataSync
+99. AWS Transfer Family
+100. AWS Backup
 
 ### DevOps and CI/CD
-76. CodeCommit
-77. CodeBuild
-78. CodeDeploy
-79. CodePipeline
-80. CloudFormation
-81. CDK (Cloud Development Kit)
-82. Elastic Beanstalk
+101. CodeCommit
+102. CodeBuild
+103. CodeDeploy
+104. CodePipeline
+105. CloudFormation
+106. CDK (Cloud Development Kit)
+107. Elastic Beanstalk
 
 ### Cost Management
-83. Cost Explorer
-84. Budgets
-85. Cost Allocation Tags
-86. Reserved Instances
-87. Savings Plans
+108. Cost Explorer
+109. Budgets
+110. Cost Allocation Tags
+111. Reserved Instances
+112. Savings Plans
+113. Compute Optimizer
+
+### S3 Deep Dive
+114. S3 Lifecycle Policies
+115. S3 Replication (CRR & SRR)
+116. S3 Event Notifications
+117. S3 Select & Glacier Select
+
+### Service Comparison & Selection
+118. SQS vs SNS vs Kinesis vs EventBridge
+119. RDS vs Aurora vs DynamoDB
+120. ECS vs EKS vs Lambda
+121. S3 vs EBS vs EFS
+122. CloudFront vs Global Accelerator
+123. Security Groups vs NACLs
+124. NAT Gateway vs NAT Instance
 
 ### Advanced Topics
-88. Well-Architected Framework
-89. Disaster Recovery Strategies
-90. Multi-Region Architecture
-91. Hybrid Cloud
-92. Serverless Architecture
+125. Well-Architected Framework (All 6 Pillars)
+126. Disaster Recovery Strategies (Backup & Restore, Pilot Light, Warm Standby, Active-Active)
+127. Multi-Region Architecture
+128. Hybrid Cloud
+129. Serverless Architecture
+130. AWS Control Tower & Landing Zones
 
 ---
 
@@ -133,6 +177,7 @@ AWS knowledge is crucial for:
 - **High Availability**: Multi-AZ, multi-region, disaster recovery
 - **Performance**: Service selection, caching, CDN
 - **Migration**: On-premise to cloud, cloud-to-cloud
+- **Service Selection**: Choosing the right service for the right scenario
 
 ---
 
