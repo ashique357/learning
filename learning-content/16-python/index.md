@@ -5,119 +5,154 @@ Master Python programming language for backend development, scripting, and data 
 ## 📑 Topics
 
 ### Python Fundamentals
-1. Python Basics
-2. Python Installation and Setup
-3. Python Syntax
+1. Python Basics (Interpreted, Dynamic Typing, Indentation-Based)
+2. Python Installation and Setup (Python 3, pip, venv)
+3. Python Syntax (Indentation, Comments, Docstrings)
 4. Variables and Data Types
-5. Operators
-6. Control Flow (if, elif, else)
-7. Loops (for, while)
-8. Functions
-9. Lambda Functions
-10. Input/Output
+    - Numeric (int, float, complex)
+    - String (Immutable, f-strings, Methods)
+    - Boolean (Truthy, Falsy Values)
+    - None (Null Equivalent, Singleton)
+5. Mutable vs Immutable (list vs tuple, dict vs frozenset, Why It Matters)
+6. Operators (Arithmetic, Comparison, Logical, Bitwise, Walrus :=)
+7. Control Flow (if, elif, else, Ternary Expression)
+8. Loops (for, while, break, continue, else Clause on Loops)
+9. Functions (def, Parameters, Return, Default Values, Keyword Arguments)
+10. *args and **kwargs (Variable Arguments, Unpacking, When to Use)
+11. Lambda Functions (Anonymous, Single Expression, Use with map/filter/sorted)
+12. Input/Output (input, print, Formatting)
 
 ### Data Structures
-11. Lists
-12. Tuples
-13. Sets
-14. Dictionaries
-15. Strings
-16. List Comprehensions
-17. Dictionary Comprehensions
+13. Lists (Mutable, Ordered, Methods, Slicing, Internal Working as Dynamic Array)
+14. Tuples (Immutable, Ordered, Named Tuples, Packing/Unpacking)
+15. Sets (Unordered, Unique, Operations: Union, Intersection, Difference)
+16. Dictionaries (Key-Value, Ordered Since 3.7, Internal Working as Hash Table)
+17. Strings (Immutable, Slicing, Methods, Encoding, Raw Strings)
+18. List Comprehensions (Syntax, Conditional, Nested, Performance vs Loop)
+19. Dictionary Comprehensions (Syntax, Conditional, From Lists)
+20. Generator Expressions (Lazy Evaluation, Memory Efficient, vs List Comprehension)
 
 ### Object-Oriented Programming
-18. Classes and Objects
-19. Constructors
-20. Inheritance
-21. Polymorphism
-22. Encapsulation
-23. Abstract Classes
-24. Magic Methods
-25. Property Decorators
+21. Classes and Objects (class, __init__, self, Instance vs Class Variables)
+22. Constructors (__init__ vs __new__, Object Creation Flow)
+23. Inheritance (Single, Multiple, MRO — Method Resolution Order, super())
+24. Polymorphism (Duck Typing, Method Overriding, Operator Overloading)
+25. Encapsulation (Public, Protected _, Private __, Name Mangling)
+26. Abstract Classes (ABC, @abstractmethod, Cannot Instantiate)
+27. Magic/Dunder Methods (__str__, __repr__, __len__, __eq__, __hash__, __getitem__, __call__)
+28. Property Decorators (@property, @setter, @deleter, Computed Properties)
+29. @staticmethod vs @classmethod (No self, cls, Factory Methods, Utility Methods)
+30. Shallow vs Deep Copy (copy, deepcopy, Mutable Nested Objects)
+31. Descriptor Protocol (__get__, __set__, __delete__, How Properties Work)
 
 ### Modules and Packages
-26. Modules
-27. Packages
-28. Import System
-29. Virtual Environments
-30. pip and Package Management
+32. Modules (import, from...import, __name__, __main__)
+33. Packages (__init__.py, Relative Imports, Namespace Packages)
+34. Import System (Module Search Path, sys.path, Circular Imports)
+35. Virtual Environments (venv, virtualenv, Isolation, Activation)
+36. pip and Package Management (install, freeze, requirements.txt)
 
 ### File Handling
-31. File Operations
-32. Reading and Writing Files
-33. Context Managers
-34. Working with CSV
-35. Working with JSON
+37. File Operations (open, read, write, append, Modes: r, w, a, rb, wb)
+38. Reading and Writing Files (read, readline, readlines, write, writelines)
+39. Context Managers (with Statement, __enter__, __exit__, Auto-Close)
+40. Working with CSV (csv.reader, csv.writer, DictReader, DictWriter)
+41. Working with JSON (json.dumps, json.loads, json.dump, json.load)
 
 ### Exception Handling
-36. Exception Basics
-37. Try-Except-Finally
-38. Custom Exceptions
-39. Exception Best Practices
+42. Exception Basics (Exception Hierarchy, BaseException, Exception)
+43. Try-Except-Finally (try, except, else, finally, Multiple Except)
+44. Custom Exceptions (Inheriting Exception, Custom Attributes)
+45. Exception Best Practices (Specific Exceptions, Don't Catch Everything, Logging)
 
 ### Advanced Python
-40. Decorators
-41. Generators
-42. Iterators
-43. Context Managers
-44. Metaclasses
-45. Type Hints
-46. Dataclasses
-47. Type Checking with mypy
+46. Decorators (Function Decorators, Class Decorators, @wraps, Chaining)
+47. Generators (yield, Generator Functions, send, throw, close, Lazy Evaluation)
+48. Iterators (__iter__, __next__, StopIteration, Iterable vs Iterator)
+49. Context Managers (contextlib, @contextmanager, Custom Context Managers)
+50. Metaclasses (type, __metaclass__, __new__, __init_subclass__, Use Cases)
+51. Type Hints (int, str, List[int], Optional, Union, TypeVar, Generic)
+52. Dataclasses (@dataclass, field, __post_init__, frozen, Comparison with NamedTuple)
+53. Type Checking with mypy (Static Analysis, Configuration, Strict Mode)
+
+### Python Internals
+54. GIL (Global Interpreter Lock)
+    - What It Is (Single Thread Execution for Bytecode)
+    - Why It Exists (CPython Memory Management)
+    - Impact on Multithreading (CPU-Bound vs I/O-Bound)
+    - Workarounds (multiprocessing, C Extensions, asyncio)
+55. Memory Management
+    - Reference Counting (Every Object Has a Count)
+    - Garbage Collection (Generational GC, Cycle Detection)
+    - Memory Pools (pymalloc, Object-Specific Allocators)
+    - Memory Profiling (tracemalloc, objgraph, memory_profiler)
+56. Python Object Model (Everything is an Object, id, type, is vs ==)
+57. How dict Works Internally (Hash Table, Open Addressing, Compact Dict 3.6+)
+58. How list Works Internally (Dynamic Array, Over-Allocation, Amortized O(1) Append)
 
 ### Python 3.10+ Features
-48. Structural Pattern Matching
-49. Union Types
-50. Parenthesized Context Managers
+59. Structural Pattern Matching (match/case, Guards, Patterns)
+60. Union Types (X | Y Instead of Union[X, Y])
+61. Parenthesized Context Managers (Multiple with Statements)
+62. Walrus Operator (:=) (Assignment Expression, Use in while/if)
 
 ### Functional Programming
-51. Map, Filter, Reduce
-52. Functional Programming Concepts
-53. Closures
+63. Map, Filter, Reduce (Built-in, functools.reduce, Lambda Usage)
+64. Functional Programming Concepts (Pure Functions, Immutability, First-Class Functions)
+65. Closures (Nested Functions, Enclosing Scope, nonlocal)
 
 ### Concurrency
-54. Threading
-55. Multiprocessing
-56. Asyncio
-57. Async/Await
-58. Concurrent Futures
+66. Threading (Thread, Lock, RLock, Condition, Event, Semaphore)
+    - GIL Impact on Threading (Good for I/O, Bad for CPU)
+67. Multiprocessing (Process, Pool, Queue, Pipe, Shared Memory)
+    - When to Use multiprocessing vs threading
+68. Asyncio (Event Loop, Coroutines, Tasks, Gather)
+69. Async/Await (async def, await, Async Context Managers, Async Generators)
+70. Concurrent Futures (ThreadPoolExecutor, ProcessPoolExecutor, as_completed)
 
 ### Standard Library
-59. Collections Module
-60. Datetime Module
-61. OS Module
-62. Sys Module
-63. Regular Expressions
-64. Logging
+71. Collections Module (Counter, defaultdict, OrderedDict, deque, namedtuple, ChainMap)
+72. Datetime Module (datetime, date, time, timedelta, timezone, strftime, strptime)
+73. OS Module (os.path, os.environ, os.listdir, os.makedirs)
+74. Sys Module (sys.argv, sys.path, sys.exit, sys.stdin/stdout)
+75. Regular Expressions (re.match, re.search, re.findall, re.sub, Groups, Patterns)
+76. Logging (Logger, Handler, Formatter, Levels, Configuration)
 
 ### Database Access
-65. SQLite
-66. MySQL/PostgreSQL
-67. SQLAlchemy ORM
-68. Database Connection Pooling
+77. SQLite (sqlite3, Connection, Cursor, Parameterized Queries)
+78. MySQL/PostgreSQL (psycopg2, mysql-connector, Connection Pooling)
+79. SQLAlchemy ORM (Engine, Session, Models, Relationships, Queries)
+80. Database Connection Pooling (SQLAlchemy Pool, Pool Size, Overflow)
 
 ### Web Development Basics
-69. HTTP Requests (requests library)
-70. Web Scraping (BeautifulSoup)
-71. REST API Clients
+81. HTTP Requests (requests Library, GET, POST, Headers, Timeout, Session)
+82. Web Scraping (BeautifulSoup, Selectors, Pagination, Rate Limiting)
+83. REST API Clients (requests, httpx, Async HTTP)
 
 ### Testing
-72. Unit Testing (unittest)
-73. Pytest
-74. Mocking
-75. Test Coverage
+84. Unit Testing (unittest, TestCase, setUp, tearDown, Assertions)
+85. Pytest (Fixtures, Parametrize, Markers, Conftest, Plugins)
+86. Mocking (unittest.mock, patch, MagicMock, side_effect)
+87. Test Coverage (coverage.py, Branch Coverage, Reporting)
 
 ### Package Management
-76. pip
-77. Poetry
-78. pipenv
+88. pip (install, freeze, requirements.txt, Constraints)
+89. Poetry (pyproject.toml, Lock File, Dependency Resolution, Publishing)
+90. pipenv (Pipfile, Pipfile.lock, Virtual Environment Management)
 
 ### Best Practices
-79. PEP 8 Style Guide
-80. Code Quality (pylint, flake8)
-81. Virtual Environments Best Practices
-82. Python Design Patterns
-83. Performance Optimization
+91. PEP 8 Style Guide (Naming, Indentation, Line Length, Imports)
+92. Code Quality (pylint, flake8, black, isort, pre-commit)
+93. Virtual Environments Best Practices (Per-Project, .gitignore, Requirements)
+94. Performance Optimization (Profiling, cProfile, List vs Generator, Built-in Functions)
+
+### Interview Scenarios
+95. GIL — What Is It and How to Work Around It
+96. Mutable Default Arguments Pitfall (def func(lst=[]))
+97. How Python dict Works Internally
+98. Decorators — Explain with Example
+99. Threading vs Multiprocessing vs Asyncio — When to Use Which
+100. is vs == — Difference and When to Use
 
 ---
 
