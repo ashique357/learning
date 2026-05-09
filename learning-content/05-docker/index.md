@@ -12,7 +12,7 @@ Master containerization, Docker fundamentals, and container best practices.
 5. Docker Installation and Setup
 
 ### Images
-6. Docker Images (Layers, Read-Only, Image ID, Digest)
+**6. Docker Images (Layers, Read-Only, Image ID, Digest)**
 7. Dockerfile
     - FROM, RUN, CMD, ENTRYPOINT, COPY, ADD, WORKDIR, EXPOSE, ENV, ARG
     - CMD vs ENTRYPOINT (Difference, When to Use)
