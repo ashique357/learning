@@ -11,7 +11,7 @@ Following the official Kubernetes documentation organization from kubernetes.io:
 ### 🎯 Concepts (kubernetes.io/docs/concepts/)
 - [Overview](./concepts/01-overview/overview.md)
 - [Cluster Architecture](./concepts/02-cluster-architecture/cluster-architecture.md)
-- [Containers](./concepts/03-containers/containers.md)
+- [Containers](concepts/3.containers.md)
 - [Workloads](./concepts/04-workloads/workloads.md)
 - [Services and Networking](./concepts/05-services-networking/services-networking.md)
 - [Storage](./concepts/06-storage/storage.md)
