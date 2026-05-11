@@ -20,11 +20,27 @@ Master Spring Boot framework for building production-ready enterprise applicatio
     - Setter Injection (Optional Dependencies)
     - Field Injection (@Autowired, Why to Avoid)
 10. Bean Lifecycle (Instantiation, Populate, Init, Destroy, @PostConstruct, @PreDestroy)
-11. Bean Scopes (Singleton, Prototype, Request, Session, Application)
+11. Bean Post Processors (BeanPostProcessor Interface, postProcessBeforeInitialization, postProcessAfterInitialization)
+    - Custom Bean Post Processors (Modifying Beans During Creation)
+    - Built-in Post Processors (AutowiredAnnotationBeanPostProcessor, CommonAnnotationBeanPostProcessor)
+    - Order of Execution (@Order, Ordered Interface)
+12. Bean Factory Post Processors (BeanFactoryPostProcessor, PropertySourcesPlaceholderConfigurer)
+    - @ConfigurationProperties Processing
+    - Custom Bean Factory Post Processors
+13. Bean Scopes (Singleton, Prototype, Request, Session, Application)
 12. Component Scanning (@ComponentScan, Base Packages, Filters)
 13. Annotations (@Component, @Service, @Repository, @Controller, @Configuration, @Bean)
     - @Component vs @Bean (When to Use Which)
     - @Qualifier, @Primary (Resolving Ambiguity)
+14. Conditional Beans (@Conditional, @ConditionalOnProperty, @ConditionalOnClass, @ConditionalOnMissingBean)
+15. Lazy Initialization (@Lazy, spring.main.lazy-initialization, Performance Impact)
+
+### AOP (Aspect-Oriented Programming)
+16. AOP Concepts (Cross-Cutting Concerns, Aspect, Pointcut, Advice, Join Point)
+17. Spring AOP vs AspectJ (Proxy-Based vs Compile-Time Weaving)
+18. Advice Types (@Before, @After, @AfterReturning, @AfterThrowing, @Around)
+19. Pointcut Expressions (execution, within, args, @annotation)
+20. AOP Proxies (JDK Dynamic Proxy vs CGLIB, @EnableAspectJAutoProxy)
 
 ### Spring Web MVC
 14. Spring MVC Basics (DispatcherServlet, Handler Mapping, View Resolver)
